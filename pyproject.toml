@@ -1,7 +1,7 @@
 [project]
 name = "smartprints-retail-sdk"
 version = "0.1.0"
-description = "SmartPrints Retail SDK"
+description = "The Python SDK for integrating with SmartPrints Retail services"
 readme = "README.md"
 authors = [
     { name = "abdelmalek0", email = "djamaa.abdelmalek98@gmail.com" }
