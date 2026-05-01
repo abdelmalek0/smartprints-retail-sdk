@@ -13,9 +13,8 @@ class SmartRetailClient(CoreClient):
     def __init__(
         self, 
         token: Optional[str] = None, 
-        base_url: Optional[str] = None,
         environment: str = "prod",
         version: Optional[str] = None,
         **kwargs
     ):
-        super().__init__(token=token, base_url=base_url, environment=environment, version=version, **kwargs)
+        super().__init__(token=token, environment=environment, version=version, **kwargs)
