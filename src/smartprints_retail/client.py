@@ -1,8 +1,10 @@
 from typing import Optional
 
-from smartprints_core import CoreClient
+from smartprints_core.client import BaseClient
 
-class SmartRetailClient(CoreClient):
+from .api.user import UserAPI
+
+class SmartRetailClient(BaseClient):
     """Integrated client for Retail POS operations."""
 
     def _construct_base_url(self, environment: str, version: Optional[str]) -> str:
@@ -18,3 +20,4 @@ class SmartRetailClient(CoreClient):
         **kwargs
     ):
         super().__init__(token=token, environment=environment, version=version, **kwargs)
+        self.user = UserAPI(self)
