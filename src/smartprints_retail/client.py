@@ -3,6 +3,8 @@ from typing import Optional
 from smartprints_core.client import BaseClient
 
 from .api.user import UserAPI
+from .api.discovery import DiscoveryAPI
+from .api.orders import OrdersAPI
 
 class SmartRetailClient(BaseClient):
     """Integrated client for Retail POS operations."""
@@ -21,3 +23,5 @@ class SmartRetailClient(BaseClient):
     ):
         super().__init__(token=token, environment=environment, version=version, **kwargs)
         self.user = UserAPI(self)
+        self.discovery = DiscoveryAPI(self)
+        self.orders = OrdersAPI(self)
