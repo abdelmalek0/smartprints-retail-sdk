@@ -1,7 +1,9 @@
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 from pydantic import Field, field_validator
 from smartprints_core.models import SmartprintsBaseModel
+from .enums import OrderStatus
+
 
 class Order(SmartprintsBaseModel):
     created_date: Optional[datetime] = Field(None, alias="createdDate")
@@ -22,7 +24,7 @@ class Order(SmartprintsBaseModel):
     sync: Optional[bool] = None
     ticket_number: Optional[str] = Field(None, alias="ticket_number")
     discount_total: Optional[float] = Field(None, alias="discountTotal")
-    status: Optional[str] = None
+    status: Optional[OrderStatus] = None
     order_uuid: Optional[str] = Field(None, alias="order_uuid")
     client_id: Optional[int] = Field(None, alias="clientId")
     client_name: Optional[str] = Field(None, alias="clientName")
@@ -41,7 +43,7 @@ class OrderSearchRequest(SmartprintsBaseModel):
     id_payment_method: int = Field(0, alias="idPAYMENT_METHOD")
     fraud_detected: str = Field("", alias="fraudDetected")
     real_fraud: str = Field("", alias="realFraud")
-    status: str = ""
+    status: Union[OrderStatus, str] = ""
     sync: str = ""
     page: int = 0
     size: int = 1000

@@ -1,7 +1,6 @@
 from typing import List
 from smartprints_core.client import BaseClient
-from ..models.order import Order, OrderSearchRequest
-from ..models.order_line import OrderLine
+from ..models.order import Order, OrderSearchRequest, OrderLine
 from ..models.product import Product
 
 class OrdersAPI:
