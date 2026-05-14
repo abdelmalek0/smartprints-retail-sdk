@@ -5,6 +5,7 @@ from smartprints_core.client import BaseClient
 from .api.user import UserAPI
 from .api.discovery import DiscoveryAPI
 from .api.orders import OrdersAPI
+from .api.stock_status import StockStatusAPI
 
 class SmartRetailClient(BaseClient):
     """Integrated client for Retail POS operations."""
@@ -25,3 +26,4 @@ class SmartRetailClient(BaseClient):
         self.user = UserAPI(self)
         self.discovery = DiscoveryAPI(self)
         self.orders = OrdersAPI(self)
+        self.stock_status = StockStatusAPI(self)

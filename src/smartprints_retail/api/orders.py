@@ -1,7 +1,10 @@
-from typing import List
+from typing import Any, Dict, List
 from smartprints_core.client import BaseClient
-from ..models.order import Order, OrderSearchRequest, OrderLine
+from ..models.order import Order, OrderSearchRequest, OrderLine, ExportSalesProduct, ExportSalesInvoiceRequest
 from ..models.product import Product
+
+PAGE_SIZE = 1000
+EXPORT_PAGE_SIZE = 100000
 
 class OrdersAPI:
     def __init__(self, client: BaseClient):
@@ -9,10 +12,11 @@ class OrdersAPI:
 
     async def search_orders(self, params: OrderSearchRequest) -> List[Order]:
         data = await self.client.get(
-            "order/search/searchOrders", 
+            "order/searchOrders",
             params=params.model_dump(by_alias=True, exclude_none=True)
         )
-        orders = data.get("_embedded", {}).get("order", []) if isinstance(data, dict) else []
+            
+        orders = data.get("content", [])
         return [Order.model_validate(o) for o in orders]
 
     async def fetch_orderlines(self, order_id: int) -> List[OrderLine]:
@@ -23,3 +27,20 @@ class OrdersAPI:
     async def fetch_orderline_product(self, orderline_id: int) -> Product:
         data = await self.client.get(f"orderline/{orderline_id}/product")
         return Product.model_validate(data)
+
+    async def export_sales_products(
+        self,
+        request: ExportSalesInvoiceRequest
+    ) -> List[ExportSalesProduct]:
+        return await self.export_sales_invoice_products(request)
+
+    async def export_sales_invoice_products(
+        self,
+        request: ExportSalesInvoiceRequest
+    ) -> List[ExportSalesProduct]:
+        data = await self.client.get(
+            "export/salesInvoiceProducts",
+            params=request.model_dump(by_alias=True, exclude_none=True)
+        )
+        content = data if isinstance(data, list) else data.get("content", data)
+        return [ExportSalesProduct.model_validate(item) for item in content]
