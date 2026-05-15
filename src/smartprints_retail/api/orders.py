@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 from smartprints_core.client import BaseClient
-from ..models.order import Order, OrderSearchRequest, OrderLine, ExportSalesProduct, ExportSalesInvoiceRequest
+from ..models.order import Order, OrderSearchRequest, OrderLine, ExportSalesProduct, ExportSalesInvoiceRequest, ProductSalesStatsRequest, ProductSalesStat
 from ..models.product import Product
 
 PAGE_SIZE = 1000
@@ -44,3 +44,15 @@ class OrdersAPI:
         )
         content = data if isinstance(data, list) else data.get("content", data)
         return [ExportSalesProduct.model_validate(item) for item in content]
+
+    async def get_products_sales_stats(
+        self,
+        request: ProductSalesStatsRequest
+    ) -> List[ProductSalesStat]:
+        data = await self.client.post(
+            "order/getProductsSalesStats",
+            data=request.model_dump(by_alias=True, exclude_none=True)
+        )
+        content = data if isinstance(data, list) else data.get("content", data)
+        return [ProductSalesStat.model_validate(item) for item in content]
+

@@ -1,5 +1,5 @@
-from typing import Optional, Union
 from pydantic import Field, field_validator, ConfigDict
+from typing import Optional, Union, List
 from smartprints_core.models import SmartprintsBaseModel
 from .enums import OrderStatus
 
@@ -37,5 +37,16 @@ class ExportSalesInvoiceRequest(SmartprintsBaseModel):
     id_branch: int = Field(0, alias="idBRANCH")
     page: int = 0
     size: int = 1000
+
+    model_config = ConfigDict(populate_by_name=True)
+
+
+class ProductSalesStatsRequest(SmartprintsBaseModel):
+    start_date: str = Field(..., alias="startDate", description="Start date in ISO 8601 format")
+    end_date: str = Field(..., alias="endDate", description="End date in ISO 8601 format")
+    id_client: int = Field(..., alias="idCLIENT")
+    selected_branches: List[int] = Field(default_factory=list, alias="selectedBranches")
+    selected_categories: List[int] = Field(default_factory=list, alias="selectedCategories")
+    selected_products: List[int] = Field(default_factory=list, alias="selectedProducts")
 
     model_config = ConfigDict(populate_by_name=True)
